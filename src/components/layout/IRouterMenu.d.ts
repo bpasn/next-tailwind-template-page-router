@@ -1,9 +1,9 @@
-import { LucideIcon } from "lucide-react" // <--- import type from library
+import { LucideIcon, icons } from "lucide-react"; // <--- import type from library
 
 interface IRouterMenu {
     routeLink?: string;
     label: string;
-    icon?: LucideIcon;
+    icon?: keyof typeof icons;
     expanded?: boolean;
     children?: ISideBar[];
 }

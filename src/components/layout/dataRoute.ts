@@ -3,12 +3,12 @@ import { IRouterMenu } from "./IRouterMenu";
 
 export const dataRoute: IRouterMenu[] = [
     {
-      routeLink: "dashboard",
-      icon: LayoutDashboard,
+      routeLink: "/dashboard",
+      icon: "LayoutDashboard",
       label: "Dashboard",
     },
     {
-      icon: ShoppingCart,
+      icon: "ShoppingCart",
       label: "E-commerce",
       expanded:false,
       children: [
@@ -16,32 +16,32 @@ export const dataRoute: IRouterMenu[] = [
           label: "Categories",
           children:[
             {
-              routeLink:"e-commerce/categories/category",
+              routeLink:"/e-commerce/categories",
               label:"Category",
             },
             {
-              routeLink:"e-commerce/categories/sub-category",
+              routeLink:"/e-commerce/categories/sub-category",
               label:"SubCategory",
             }
           ]
         },
         {
-          routeLink: "e-commerce/products/product",
+          routeLink: "/e-commerce/products",
           label: "Products",
         },
         {
-          routeLink: "e-commerce/brand",
+          routeLink: "/e-commerce/brand",
           label: "Brands",
         },
         {
           label: "Orders",
           children:[
             {
-              routeLink: "e-commerce/orders",
+              routeLink: "/e-commerce/orders",
               label:"Order"
             },
             {
-              routeLink: "e-commerce/orders/history",
+              routeLink: "/e-commerce/orders/history",
               label:"Order History"
             },
   
@@ -50,14 +50,14 @@ export const dataRoute: IRouterMenu[] = [
       ]
     },
     {
-      routeLink: "profile",
-      icon: User2,
+      routeLink: "/profile",
+      icon: "User2",
       label: "Users",
     },
   
     {
-      routeLink: "signin",
-      icon: LogIn,
+      routeLink: "/signin",
+      icon: "LogIn",
       label: "Sign In",
     },
   

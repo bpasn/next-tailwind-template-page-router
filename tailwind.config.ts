@@ -29,6 +29,31 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
+      },
+      translate:{
+
+      },
+      keyframes:{
+        "open-sublevel-nav":{
+          '0%':{transform:"translateY(0)"},
+          '50%':{transform:"translateY(1.2)"},
+          "100%":{transform:"translateY(1) "}
+        },
+        
+        "close-sublevel-nav":{
+          '0%':{transform:"scaleY(1)"},
+          // "80%":{transform:"scaleY(1)"},
+          "100%":{transform:"scaleY(0)"}
+        },
+
+      },
+      animation:{
+        "open-sublevel-nav":"open-sublevel-nav 0.3s ease-in",
+        "close-sublevel-nav":"close-sublevel-nav 0.5s ease-out forwards"
+      }
     },
   },
   plugins: [],

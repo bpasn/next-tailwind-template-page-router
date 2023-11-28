@@ -1,5 +1,5 @@
+'use client';
 import '@/styles/globals.scss';
-// import '@/styles/root.module.scss';
 import type { AppProps } from 'next/app';
 import { SessionProvider, useSession } from 'next-auth/react';
 import React from 'react';

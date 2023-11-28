@@ -26,7 +26,7 @@ aside {
     @apply space-y-3 font-medium;
 
     .nav-router-link {
-      @apply flex items-center p-2 text-primary-50 rounded-lg hover:bg-primary-500 cursor-pointer transition-all ease-in-out duration-[.3s];
+      @apply flex w-full items-center p-2 text-primary-50 rounded-lg hover:bg-primary-500 cursor-pointer transition-all ease-in-out duration-[.3s];
     }
 
     .nav-link-menu-item-text {
@@ -47,13 +47,18 @@ aside {
 }
 
 .sublevel-nav {
-  @apply space-y-4  font-medium list-none ml-[10px];
+  @apply space-y-4  font-medium list-none ml-[10px] w-full;
 
+  .open-sublevel {
+    @apply transition-transform duration-200 ease-out transform translate-y-0 opacity-100 ;
+  }
+  .close-sublevel {
+    @apply h-0 overflow-hidden;
+  }
   .sublevel-nav-item {
 
-
     .sublevel-nav-link {
-      @apply flex items-center py-2 text-primary-200 rounded-lg hover:bg-primary-500 cursor-pointer transition-all ease-in-out duration-[.3s];
+      @apply flex w-full items-center p-[.5rem_0_.5rem_0] text-primary-200 rounded-lg hover:bg-primary-500 cursor-pointer transition-all ease-in-out duration-[.3s];
 
       .sublevel-link-text {
         @apply ml-[0.8rem]
