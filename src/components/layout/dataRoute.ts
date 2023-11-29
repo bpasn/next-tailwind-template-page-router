@@ -1,4 +1,3 @@
-import { LayoutDashboard, LogIn, ShoppingCart, User2 } from "lucide-react";
 import { IRouterMenu } from "./IRouterMenu";
 
 export const dataRoute: IRouterMenu[] = [
@@ -51,10 +50,9 @@ export const dataRoute: IRouterMenu[] = [
     },
     {
       routeLink: "/profile",
-      icon: "User2",
+      icon: "User",
       label: "Users",
     },
-  
     {
       routeLink: "/signin",
       icon: "LogIn",

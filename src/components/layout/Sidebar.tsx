@@ -22,8 +22,8 @@ const Sidebar = ({
     } = useStoreMenuRoute();
     return (
         <aside className={`sidebar-container ${collapse ? 'w-[16rem]' : 'w-[5rem]'}`}>
-            <div className="h-full px-3 py-4 overflow-y-auto bg-primary-800">
-                <div className="logo-container mb-10">
+            <div className="sidebar-content">
+                <div className="logo-container">
                     <button className="logo" onClick={onToggle}>N</button>
                     <span className={`logo-text ${collapse ? 'block' : 'hidden'}`}>Next tailwind</span>
                     <button

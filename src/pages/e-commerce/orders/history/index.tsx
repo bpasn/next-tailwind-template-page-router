@@ -1,10 +1,13 @@
+import Heading from '@/components/ui/heading'
 import React from 'react'
 
 type Props = {}
 
 const HistoryPage = (props: Props) => {
   return (
-    <div>HistoryPage</div>
+    <div>
+      <Heading title={'HistoryPage'} description={'This will display the HistoryPage page'} />
+    </div>
   )
 }
 

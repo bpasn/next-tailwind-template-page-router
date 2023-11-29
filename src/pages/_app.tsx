@@ -5,6 +5,7 @@ import { SessionProvider, useSession } from 'next-auth/react';
 import React from 'react';
 import { useRouter } from 'next/router';
 import Layout from './layout';
+import ThemeProvider from '@/components/theme-provider';
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const [hydrated, setHydrated] = React.useState(false);
   React.useEffect(() => {
@@ -15,9 +16,16 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     return null;
   }
   return (
+    <ThemeProvider
+      attribute='class'
+      defaultTheme='system'
+      enableSystem
+      disableTransitionOnChange
+    >
       <Layout>
         <Component {...pageProps} />
       </Layout>
+    </ThemeProvider>
   );
 }
 function Auth({ children }: { children: React.ReactNode; }) {

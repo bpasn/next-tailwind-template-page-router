@@ -1,0 +1,88 @@
+aside {
+  @apply fixed top-0 left-0 z-10 h-screen shadow-2xl transition-all ease-in-out duration-500;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .sidebar-content {
+    @apply h-full px-3 py-4 overflow-y-auto bg-background/90 dark:bg-primary-foreground
+  }
+  .logo-container {
+    @apply flex items-center w-full  mb-10;
+
+    .logo {
+      @apply bg-primary text-white text-center w-[3rem] min-w-[3rem] rounded-lg p-[.313rem] text-2xl cursor-pointer font-bold ;
+    }
+
+    .logo-text {
+      @apply ml-[1.5rem] text-[18px] font-bold;
+    }
+
+    .btn-close {
+      background: transparent;
+      @apply ml-auto cursor-pointer w-[2rem] h-[2rem] rounded-lg border-none;
+    }
+  }
+
+  .nav-menu {
+    @apply space-y-3 font-medium text-primary;
+
+
+    .nav-router-link {
+      @apply flex w-full items-center p-2 rounded-lg hover:bg-primary dark:text-white hover:text-primary-foreground cursor-pointer transition-all duration-500 ease-in-out;
+    }
+
+    .nav-link-menu-item-text {
+      @apply ms-3
+    }
+
+    .nav-link-menu-item-icon {
+      @apply text-primary hover:text-primary-foreground;
+    }
+
+  }
+}
+
+
+.menu-collapse-icon {
+  @apply text-[24px] w-[2rem] min-w-[2rem] m-[auto_0.5rem_auto_auto] text-center text-primary;
+}
+
+.sublevel-nav {
+  @apply space-y-2 font-medium list-none ml-[10px] mt-2;
+
+  .open-sublevel {
+    @apply transition-transform duration-200 ease-out transform translate-y-0 opacity-100;
+  }
+
+  .close-sublevel {
+    @apply h-0 overflow-hidden;
+  }
+
+  .sublevel-nav-item {
+
+    .sublevel-nav-link {
+      @apply flex w-full items-center p-[.5rem_0_.5rem_0] text-foreground  rounded-lg hover:bg-primary hover:text-primary-foreground cursor-pointer transition-all ease-in-out duration-300;
+
+      .sublevel-link-text {
+        @apply ml-[0.8rem]
+      }
+
+      .sublevel-link-icon {
+        @apply text-[4px] w-[2rem] min-w-[2rem] m-[0_0.5rem] text-center
+      }
+
+
+    }
+
+  }
+
+}
+
+.active {
+  @apply bg-primary hover:text-primary-foreground text-primary-foreground
+}
+
+.active-sublevel {
+  @apply bg-primary text-primary-foreground hover:text-primary-foreground
+}

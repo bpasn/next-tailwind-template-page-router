@@ -1,5 +1,6 @@
 'use client';
 import Sidebar from '@/components/layout/Sidebar';
+import SetTheme from '@/components/set-theme';
 import React, { useEffect, useState } from 'react';
 
 const Layout = ({ children }: {
@@ -18,17 +19,27 @@ const Layout = ({ children }: {
         window.addEventListener('resize', handleResize);
     }, []);
     return (
-        <main className='w-screen h-screen relative'>
-            <Sidebar
-                collapse={collapse}
-                onToggle={() => {
-                    console.log(collapse);
-                    setCollapse(!collapse);
-                } }
-                screenWidth={screenWidth} multiple={false} />
-            <section className={`${collapse ? 'ml-[16rem]' : 'ml-[5rem]'} transition-all ease-in-out duration-[.5s]`}>
-                {children}
-            </section>
+        <main className='relative flex min-h-screen flex-col'>
+            <div className="flex-1">
+                <div className="w-full  flex-1 items-start ">
+                    <Sidebar
+                        collapse={collapse}
+                        onToggle={() => {
+                            setCollapse(!collapse);
+                        }}
+                        screenWidth={screenWidth} multiple={false} />
+                    <section className={`${collapse ? 'ml-[16rem]' : 'ml-[5rem]'} transition-all ease-in-out duration-[.5s] h-screen`}>
+                        <div className="p-5 bg-background">
+                            <div className='w-full flex justify-end'>
+                                <SetTheme />
+                            </div>
+                            <div className="w-full">
+                                {children}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </main>
     );
 };
