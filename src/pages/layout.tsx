@@ -22,10 +22,10 @@ const Layout = ({ children }: {
             <Sidebar
                 collapse={collapse}
                 onToggle={() => {
-                    console.log(collapse)
+                    console.log(collapse);
                     setCollapse(!collapse);
-                }}
-                screenWidth={screenWidth} />
+                } }
+                screenWidth={screenWidth} multiple={false} />
             <section className={`${collapse ? 'ml-[16rem]' : 'ml-[5rem]'} transition-all ease-in-out duration-[.5s]`}>
                 {children}
             </section>
