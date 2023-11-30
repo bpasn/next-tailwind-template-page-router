@@ -70,5 +70,8 @@
     @apply bg-background text-foreground;
   }
 
+  .container {
+    @apply p-0 md:p-[2.5rem]
+  }
  
 }

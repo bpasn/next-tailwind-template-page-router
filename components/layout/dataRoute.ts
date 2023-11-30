@@ -2,7 +2,7 @@ import { IRouterMenu } from "./IRouterMenu";
 
 export const dataRoute: IRouterMenu[] = [
     {
-      routeLink: "/dashboard",
+      routeLink: "/",
       icon: "LayoutDashboard",
       label: "Dashboard",
     },
@@ -53,10 +53,4 @@ export const dataRoute: IRouterMenu[] = [
       icon: "User",
       label: "Users",
     },
-    {
-      routeLink: "/signin",
-      icon: "LogIn",
-      label: "Sign In",
-    },
-  
   ];

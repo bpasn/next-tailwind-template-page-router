@@ -1,10 +1,6 @@
+'use client';
 import { useStoreMenuRoute } from '@/hook/useStoreMenuRoute';
 import { X } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { IRouterMenu } from './IRouterMenu';
-import Icon from './Icon';
-import { useRouter as Navigation } from 'next/navigation';
-import { useRouter } from 'next/router';
 import { Menu } from './Menu';
 interface SidebarProps {
     collapse: boolean;
@@ -14,7 +10,6 @@ interface SidebarProps {
 }
 const Sidebar = ({
     collapse,
-    screenWidth,
     onToggle,
 }: SidebarProps) => {
     const {
