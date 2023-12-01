@@ -1,5 +1,9 @@
+import { Metadata } from 'next';
 import ProductClient from './component/product-client';
-
+export const metadata: Metadata = {
+  title: 'Product',
+  description: '...',
+}
 const Product = async () => {
   return (
     <div className='flex-col'>

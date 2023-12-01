@@ -1,6 +1,10 @@
 import Heading from '@/components/ui/heading'
+import { Metadata } from 'next'
 import React from 'react'
-
+export const metadata: Metadata = {
+  title: 'Order',
+  description: '...',
+}
 type Props = {}
 
 const OrdersPage = (props: Props) => {

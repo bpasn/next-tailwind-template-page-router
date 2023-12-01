@@ -2,33 +2,43 @@
 import {
     ColumnDef,
     ColumnFiltersState,
+    Pagination,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     useReactTable
 } from '@tanstack/react-table';
-import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import React, { useEffect, useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from './ui/button';
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
+export enum PERPAGE_OPTION {
+    TEN = 10,
+    TWENTY_FIVE = 25,
+    FIFTY = 50,
+    ONE_HUNDRED = 100
+}
 export interface IDataTable<TData> {
     count: number;
     data: TData[];
     page: number;
-    pageSize: number;
+    pageSize: PERPAGE_OPTION;
 }
+
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     dataTable: IDataTable<TData>;
     loading: boolean;
-    setDataTable: React.Dispatch<React.SetStateAction<IDataTable<TData>>>;
-
+    onSelectChange?: (v: string) => void;
 }
+
 export default function DataTable<TData, TValue>({
     columns,
     dataTable,
     loading = false,
-    setDataTable
+    onSelectChange
 }: DataTableProps<TData, TValue>) {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const table = useReactTable({
@@ -38,19 +48,23 @@ export default function DataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         initialState: {
             pagination: {
-                pageSize: dataTable.pageSize
+                pageSize: dataTable.pageSize,
+                pageIndex: dataTable.page
             }
         },
         onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
         state: {
-            columnFilters
+            columnFilters,
+            pagination: {
+                pageSize: dataTable.pageSize,
+                pageIndex: dataTable.page
+            }
         }
     });
-
     const onPageChange = (e: React.ChangeEvent<unknown>, p: number) => {
         if (p - 1 === dataTable.page) return;
-        setDataTable(prv => ({ ...prv, page: p - 1, }));
+        // setDataTable(prv => ({ ...prv, page: p - 1, }));
         // onPaginationChange?.(p);
     };
 
@@ -88,11 +102,13 @@ export default function DataTable<TData, TValue>({
                             table.getRowModel().rows.map(row => (
                                 <TableRow key={row.id}
                                     data-state={row.getIsSelected() && "selected"}>
-                                    {row.getVisibleCells().map(cell => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                        </TableCell>
-                                    ))}
+                                    {row.getVisibleCells().map(cell => {
+                                        return (
+                                            <TableCell key={cell.id}>
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </TableCell>
+                                        )
+                                    })}
                                 </TableRow>
                             ))
                         )}
@@ -106,10 +122,11 @@ export default function DataTable<TData, TValue>({
                         <Select
                             disabled={!dataTable.data.length}
                             onValueChange={(e) => {
-                                setDataTable(prv => ({
-                                    ...prv,
-                                    pageSize: Number(e)
-                                }));
+                                onSelectChange?.(e);
+                                // setDataTable(prv => ({
+                                //     ...prv,
+                                //     pageSize: Number(e)
+                                // }));
                                 // onChangePageSize?.();
                             }}
                             defaultValue={dataTable.pageSize?.toString()}
@@ -121,7 +138,7 @@ export default function DataTable<TData, TValue>({
                                 />
                             </SelectTrigger>
                             <SelectContent>
-                                {[].map((o: any) => (
+                                {Object.keys(PERPAGE_OPTION).filter(v => !isNaN(Number(v))).map((o) => (
                                     <SelectItem
                                         key={o.toString()}
                                         value={o.toString()}
@@ -134,6 +151,35 @@ export default function DataTable<TData, TValue>({
                         </Select>
                     </div>
                     <p className="text-sm">of {dataTable.count}</p>
+                </div>
+                <div className="flex items-center gap-4">
+                    <Button variant="ghost"
+                        className='flex items-center gap-2'
+                        onClick={() => {
+                            table.previousPage()
+                        }}
+                    >
+                        <ArrowLeftIcon className='h-4 w-4' /> Previous
+                    </Button>
+
+                    <div className="flex items-center gap-2">
+                        {Array.from(Array(table.getPageCount()).keys()).map(v => {
+                            if (v > 3 && v < table.getPageCount() - 2) {
+                                return <span key={v}>...</span>
+                            }
+                            return (
+                                <Button key={v} variant={(dataTable.page) === v ? "default" : "ghost"}>{v + 1}</Button>
+                            )
+                        })}
+                    </div>
+
+                    <Button variant={"ghost"}
+                        className={`flex items-center gap-2 `}
+                        onClick={() => table.nextPage()}
+                        disabled={false}
+                    >
+                        <ArrowRightIcon className='h-4 w-4' /> Next
+                    </Button>
                 </div>
                 {/* <Pagination size='small' boundaryCount={2} siblingCount={-1} count={Math.ceil(dataTable.count / Number(dataTable.pageSize))} onChange={onPageChange} /> */}
             </div>

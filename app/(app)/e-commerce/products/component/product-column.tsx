@@ -1,12 +1,6 @@
 'use client';
 
-import { ColumnDef } from "@tanstack/react-table";
-
-export interface ProductColumn {
-    id: string;
-    name: string;
-    createdAt: string;
-}
+import { ColumnDef} from "@tanstack/react-table";
 
 const columns: ColumnDef<ProductColumn>[] = [
     {
@@ -14,14 +8,21 @@ const columns: ColumnDef<ProductColumn>[] = [
         header: "Id"
     },
     {
-        accessorKey: "name",
-        header: "Name"
+        accessorKey: "title",
+        header: "Title"
     },
     {
-        accessorKey: "createdAt",
-        header: "Date"
+        accessorKey: "price",
+        header: "Price"
     },
-
+    {
+        accessorKey: "category",
+        header: "Category"
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
+    },
 ]
 
 export default columns;
