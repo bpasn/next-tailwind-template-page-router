@@ -1,6 +1,6 @@
+import LoadingProvider from '@/provider/loading-provider';
 import ThemeProvider from '@/provider/theme-provider';
 import '@/styles/globals.scss';
-import React from 'react';
 const Layout = ({
     children
 }: {

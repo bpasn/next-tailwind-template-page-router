@@ -1,4 +1,5 @@
 'use client';
+import { useStoreRoute } from "@/hook/useStoreRoute";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { IRouterMenu } from "./IRouterMenu";
@@ -7,8 +8,18 @@ import Icon from "./Icon";
 
 export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: boolean; }) => {
     const [expanded, setExpanded] = useState(item.expanded || false);
+    const storeRoute = useStoreRoute();
     const pathname = usePathname();
-    const handleToggle = () => setExpanded(!expanded);
+    const handleToggle = () => {
+        if(!storeRoute.collapse && storeRoute.screenWidth > 768) {
+            storeRoute.setCollapse(true);
+            if(!expanded){
+                setExpanded(true)
+            }
+        }else {
+            setExpanded(!expanded);
+        }
+    };
     const router = useRouter();
     const changeRoute = (route: string) => {
         router.push(route);

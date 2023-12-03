@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from "@/lib/utils";
 import {
     Dialog,
     DialogContent,
@@ -36,7 +37,10 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <Dialog open={isOpen} onOpenChange={onChange}> 
             <div className="w-full">
-                <DialogContent className={className}>
+                <DialogContent className={cn(
+                    className,
+                    "overflow-y-scroll max-h-screen"
+                )}>
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                         <DialogDescription>{description}</DialogDescription>

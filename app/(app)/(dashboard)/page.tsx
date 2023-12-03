@@ -1,3 +1,4 @@
+import StoreModal from '@/components/modal/storeModel';
 import Heading from '@/components/ui/heading'
 import React from 'react'
 
@@ -6,7 +7,6 @@ const DashboardPage = () => {
     <div>
       <Heading title={'Dashboard'} description={'This will display the dashboard page'} />
       <div className="mt-5">
-        
       </div>
     </div>
   )
