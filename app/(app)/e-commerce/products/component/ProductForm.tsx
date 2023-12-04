@@ -7,7 +7,7 @@ import React from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ProductFormInfer, ProductFormSchema } from '../schema/productSchema';
-import { ComboboxForm, InputForm, TextareaForm } from '@/provider/form-provider';
+import { ComboboxForm, InputForm, InputImageForm, TextareaForm } from '@/provider/form-provider';
 import { X } from 'lucide-react';
 export const optionTest: ComboboxProps[] = [{
   value: "next.js",
@@ -99,13 +99,13 @@ const ProductForm = () => {
             formLabel='SKU'
           />
         </div>
-        <InputForm
+        <InputImageForm
           control={form.control}
           name='images'
           formLabel='Product Image'
-          type='file'
           id='picture'
           className="max-w-sm"
+          multiple
         />
         <TextareaForm
           control={form.control}

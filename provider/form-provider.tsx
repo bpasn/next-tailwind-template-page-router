@@ -7,17 +7,25 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 import {
     Control,
     FieldPath,
-    FieldValues
+    FieldValues,
+    Path,
+    PathValue
 } from "react-hook-form";
-import { useStoreCombobox } from "@/hook/useStoreCombobox";
-import React, { HTMLAttributes, HtmlHTMLAttributes, useEffect, useState } from "react";
-import ComboboxFormProvider from "./combobox-form-provider";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 export declare interface UseControllerProps<
     TElement extends HTMLElement,
     TFieldValues extends FieldValues = FieldValues,
@@ -95,6 +103,83 @@ export const TextareaForm = <T extends FieldValues>(
         />
     );
 };
+
+interface InputImageFormProps<T extends FieldValues> extends CommonFormProps<HTMLInputElement, T> {
+    multiple?: boolean;
+}
+export const InputImageForm = <T extends FieldValues>(
+    {
+        multiple = false,
+        ...props
+    }: InputImageFormProps<T>
+) => {
+    const onChooseImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e)
+        const files = e.target.files || [];
+        const newFiles: { image: File }[] = [];
+        const keys = Object.keys(files);
+        for (let i = 0; i < keys.length; i++) {
+            const file = files[i];
+            newFiles.push({ image: file });
+        }
+
+        return newFiles;
+    }
+    return (
+        <FormField
+            control={props.control}
+            name={props.name}
+            render={({ field }) => (
+                <FormItem>
+                    <FormLabel htmlFor={field.name}>{props.formLabel}</FormLabel>
+                    <FormControl>
+                        <div>
+                            <div className="mb-4 flex flex-row items-cnter gap-4">
+                                {Array.isArray(field.value) ? field.value.map((image: any) => {
+                                    console.log({image})
+                                    return (
+                                        <div className="relative block-image w-[200px] h-[200px] rounded-md overflow-hidden">
+                                            <p>this will be an image render</p>
+                                            <div className="z-10 absolute top-2 right-2">
+                                                <Button
+                                                    type="button"
+                                                    variant={"destructive"}
+                                                    size={"icon"}
+                                                >
+                                                    <Trash />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )
+                                }) : <></>}
+                            </div>
+                            <div className="mb-4 flex flex-row items-center gap-4 w-64">
+                                <Input
+                                    {...field}
+                                    className={cn(
+                                        props.className,
+                                        "w-full border brder-gray-200 shadow-sm rounded-md text-sm focus:z-10 "
+                                    )}
+                                    type={"file"}
+                                    multiple={multiple}
+                                    onChange={(e) => {
+                                        const files = onChooseImage(e);
+                                        files.map(e => {
+                                            field.value = [...field.value, e] as PathValue<T, Path<T>>;
+                                        })
+                                        field.onChange(files)
+                                        // return field.onChange(files);
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+            )}
+        />
+    );
+}
 
 
 interface ComboboxFormProps<T extends FieldValues> extends CommonFormProps<HTMLElement, T> {

@@ -8,7 +8,7 @@ export const ProductFormSchema = zod.object({
     qualtity: zod.coerce.number(),
     sku: zod.string(),
     images: zod.object({
-        image: zod.string()
+        image: typeof window !== "undefined" ? zod.instanceof(File) : zod.string()
     }).array().nullable(),
     description: zod.string().nullable(),
     additionals: zod.object({
@@ -17,5 +17,4 @@ export const ProductFormSchema = zod.object({
     }).array().nullable()
 
 });
-
 export type ProductFormInfer = zod.infer<typeof ProductFormSchema>;
