@@ -5,16 +5,14 @@ import { useEffect, useState } from "react";
 import React from "react";
 
 const StoreModal = ({
-    component,
+    children,
     title,
     description = "",
-    className,
+    className
 }: {
-    component?: JSX.Element,
     title: string,
     description?: string,
-    className?: string,
-}) => {
+} & React.HTMLAttributes<any>) => {
     const [isMounted, setIsMounted] = useState(false);
     const storeModel = useStoreModel();
 
@@ -35,7 +33,7 @@ const StoreModal = ({
         >
             <div>
                 <div className="space-y-4 py-2 px-4">
-                    {component}
+                    {children}
                 </div>
             </div>
         </Modal>

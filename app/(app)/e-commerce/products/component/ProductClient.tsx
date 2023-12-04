@@ -8,8 +8,8 @@ import { useStoreModel } from '@/hook/useStoreModel';
 import { Plus } from 'lucide-react';
 import columns from './product-column';
 import { useStoreDataTable } from '@/hook/useStoreDataTable';
-import StoreModal from '@/components/modal/storeModel';
 import ProductForm from './ProductForm';
+import StoreModal from '@/components/modal/storeModel';
 const StoreDataTable = useStoreDataTable<ProductColumn>({ api: "https://fakestoreapi.com/products" });
 export const ProductClient = () => {
     const {
@@ -23,13 +23,16 @@ export const ProductClient = () => {
     useEffectHook(() => {
         fetchDataTable();
     });
+
     return (
         <>
             <StoreModal
                 title={'Create Product Store'}
                 description='Create your product here.'
-                className='w-full md:max-w-lg'
-                component={<ProductForm />} />
+                className='w-full max-w-6xl'
+                children={<ProductForm />}
+            />
+
             <div className="grid grid-cols-2 md:flex flex-1 items-center justify-between">
                 <div className='col-span-2 mt-2 gap-2 md:gap-0'>
                     <Heading

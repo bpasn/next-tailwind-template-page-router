@@ -10,15 +10,14 @@ import {
 } from "./dialog";
 
 
-interface ModalProps {
+interface ModalProps extends React.HTMLAttributes<any> {
     title: string;
     description: string;
     isOpen: boolean;
     onClose: () => void;
     children?: React.ReactNode;
     size?: "sm" | "md" | "lg";
-    className?: string
-}
+} 
 
 const Modal: React.FC<ModalProps> = ({
     title,
@@ -36,10 +35,10 @@ const Modal: React.FC<ModalProps> = ({
     // 
     return (
         <Dialog open={isOpen} onOpenChange={onChange}> 
-            <div className="w-full">
+            <div className="">
                 <DialogContent className={cn(
                     className,
-                    "overflow-y-scroll max-h-screen"
+                    "!overflow-y-scroll md:!overflow-x-scroll max-h-screen"
                 )}>
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
