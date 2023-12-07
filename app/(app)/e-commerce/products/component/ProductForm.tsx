@@ -1,13 +1,24 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import {
-  Form,
+  Form, FormField,
 } from '@/components/ui/form';
 import React from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import {
+  useFieldArray,
+  useForm
+} from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ProductFormInfer, ProductFormSchema } from '../schema/productSchema';
-import { ComboboxForm, InputForm, InputImageForm, TextareaForm } from '@/provider/form-provider';
+import {
+  ProductFormInfer,
+  ProductFormSchema
+} from '../schema/productSchema';
+import {
+  ComboboxForm,
+  InputForm,
+  TextareaForm,
+  UploadImageForm
+} from '@/provider/form-provider';
 import { X } from 'lucide-react';
 export const optionTest: ComboboxProps[] = [{
   value: "next.js",
@@ -42,7 +53,28 @@ const ProductForm = () => {
       qualtity: 0,
       sku: "",
       description: "",
-      additionals: [],
+      additionals: [
+        {
+          title: "Title 1",
+          detail: "Detail 1"
+        },
+        {
+          title: "Title 2",
+          detail: "Detail 2"
+        },
+        {
+          title: "Title 3",
+          detail: "Detail 3"
+        },
+        {
+          title: "Title 4",
+          detail: "Detail 4"
+        },
+        {
+          title: "Title 5",
+          detail: "Detail 5"
+        },
+      ],
       images: []
     }
   });
@@ -75,12 +107,14 @@ const ProductForm = () => {
             control={form.control}
             name='categoryId'
             formLabel='Category'
+            placeholder='Select Category'
             options={optionTest}
           />
           <ComboboxForm
             control={form.control}
             name='brandId'
             formLabel='Brands'
+            placeholder='Select Brand'
             options={optionTest}
           />
           <InputForm
@@ -99,13 +133,21 @@ const ProductForm = () => {
             formLabel='SKU'
           />
         </div>
-        <InputImageForm
+        <FormField
           control={form.control}
-          name='images'
-          formLabel='Product Image'
-          id='picture'
-          className="max-w-sm"
-          multiple
+          name="images"
+          render={({ field }) => {
+            return (
+                <UploadImageForm
+                  multiple={true}
+                  value={field.value?.map(file => (file.image as File))!}
+                  onChange={(e: File) => {
+                    field.value = [...field.value!, { image: e as File }]
+                    return field.onChange(field.value)
+                  }}
+                />
+            );
+          }}
         />
         <TextareaForm
           control={form.control}

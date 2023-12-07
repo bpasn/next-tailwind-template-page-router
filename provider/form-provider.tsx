@@ -26,6 +26,10 @@ import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Image from 'next/image';
+import ComboboxFormProvider from "./combobox-form-provider";
+import { ImagesSchema, ProductFormInfer, ProductFormSchema } from "@/app/(app)/e-commerce/products/schema/productSchema";
+import zod from 'zod';
 export declare interface UseControllerProps<
     TElement extends HTMLElement,
     TFieldValues extends FieldValues = FieldValues,
@@ -104,80 +108,69 @@ export const TextareaForm = <T extends FieldValues>(
     );
 };
 
-interface InputImageFormProps<T extends FieldValues> extends CommonFormProps<HTMLInputElement, T> {
+type ImageInfer = zod.infer<typeof ImagesSchema>;
+interface InputImageFormProps {
     multiple?: boolean;
+    value: File[];
+    onChange: (val: File) => void;
 }
-export const InputImageForm = <T extends FieldValues>(
+export const UploadImageForm = (
     {
         multiple = false,
-        ...props
-    }: InputImageFormProps<T>
+        value,
+        onChange
+    }: InputImageFormProps
 ) => {
     const onChooseImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e)
         const files = e.target.files || [];
-        const newFiles: { image: File }[] = [];
-        const keys = Object.keys(files);
-        for (let i = 0; i < keys.length; i++) {
+        for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            newFiles.push({ image: file });
+            onChange(file);
         }
-
-        return newFiles;
     }
     return (
-        <FormField
-            control={props.control}
-            name={props.name}
-            render={({ field }) => (
-                <FormItem>
-                    <FormLabel htmlFor={field.name}>{props.formLabel}</FormLabel>
-                    <FormControl>
-                        <div>
-                            <div className="mb-4 flex flex-row items-cnter gap-4">
-                                {Array.isArray(field.value) ? field.value.map((image: any) => {
-                                    console.log({image})
-                                    return (
-                                        <div className="relative block-image w-[200px] h-[200px] rounded-md overflow-hidden">
-                                            <p>this will be an image render</p>
-                                            <div className="z-10 absolute top-2 right-2">
-                                                <Button
-                                                    type="button"
-                                                    variant={"destructive"}
-                                                    size={"icon"}
-                                                >
-                                                    <Trash />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    )
-                                }) : <></>}
-                            </div>
-                            <div className="mb-4 flex flex-row items-center gap-4 w-64">
-                                <Input
-                                    {...field}
-                                    className={cn(
-                                        props.className,
-                                        "w-full border brder-gray-200 shadow-sm rounded-md text-sm focus:z-10 "
-                                    )}
-                                    type={"file"}
-                                    multiple={multiple}
-                                    onChange={(e) => {
-                                        const files = onChooseImage(e);
-                                        files.map(e => {
-                                            field.value = [...field.value, e] as PathValue<T, Path<T>>;
-                                        })
-                                        field.onChange(files)
-                                        // return field.onChange(files);
+        <div className="overflow-hidden w-[500px]">
+            <div className="mb-4 flex flex-wrap items-cnter gap-4" >
+                {Array.isArray(value) ? value.map((file: File, index: number) => {
+                    console.log({ file })
+                    return (
+                        <div key={file.name} className=" w-[200px] h-[200px] rounded-md ">
+                            <img
+                            width={500}
+                            height={500}
+                            className="w-full h-full object-cover"
+                                src={URL.createObjectURL(file)}
+                                alt="Image"
+                            />
+                            <div className="z-10 absolute top-2 right-2">
+                                {/* <Button
+                                    type="button"
+                                    onClick={() => {
+
                                     }}
-                                />
+                                    variant={"destructive"}
+                                    size={"icon"}>
+                                    <Trash />
+                                </Button> */}
                             </div>
                         </div>
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-        />
+                    );
+                }) : value && (
+                    <>s</>
+                )}
+            </div>
+            <div className="mb-4 flex flex-row items-center gap-4 w-64">
+                <Input
+                    className={cn(
+                        "max-w-sm",
+                        "w-full border brder-gray-200 shadow-sm rounded-md text-sm focus:z-10 "
+                    )}
+                    type={"file"}
+                    multiple={multiple}
+                    onChange={onChooseImage}
+                />
+            </div>
+        </div>
     );
 }
 
@@ -196,7 +189,6 @@ export const ComboboxForm = <T extends FieldValues>(
         disabled
     }: ComboboxFormProps<T>
 ) => {
-    const [isOpen, setIsOpen] = useState(false);
     return (
         <FormField
             control={control}
@@ -205,40 +197,15 @@ export const ComboboxForm = <T extends FieldValues>(
                 return (
                     <FormItem>
                         <FormLabel>{formLabel}</FormLabel>
-                        <Select
-                            onValueChange={field.onChange}
-                            value={field.value}
-                            defaultValue={field.value}
-                        >
-                            <FormControl>
-                                <SelectTrigger value={field.value} defaultValue={field.value} placeholder={placeholder}>
-                                    <SelectValue
-                                        defaultValue={field.value}
-                                        placeholder={placeholder}
-                                    />
-                                </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                                <div className="mb-2">
-                                    <Input placeholder={placeholder} onChange={(e) => {
-                                        field.onChange(e);
-                                    }} />
-                                </div>
-                                {(disabled) ? (
-                                    <div className="p-2">No Result</div>
-                                ) : options.map((command: ComboboxProps) => {
-                                    return (
-                                        <SelectItem
-                                            key={command.value}
-                                            value={command.value}
-                                            className="cursor-pointer"
-                                        >
-                                            {command.label}
-                                        </SelectItem>
-                                    )
-                                })}
-                            </SelectContent>
-                        </Select>
+                        <FormControl>
+                            <ComboboxFormProvider
+                                {...field}
+                                value={field.value}
+                                options={options}
+                                placeholder={placeholder}
+                                isLoading={disabled}
+                            />
+                        </FormControl>
                     </FormItem>
                 )
             }}

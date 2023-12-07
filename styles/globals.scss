@@ -60,10 +60,36 @@
     --radius: 0.5rem
   }
 }
-
+@layer components {
+  .block-image {
+    @apply mb-4 flex flex-row flex-wrap items-cnter gap-4
+  }
+}
 @layer base {
   * {
     @apply border-border;
+  }
+
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 
   body {
@@ -73,5 +99,7 @@
   .container {
     @apply p-0 md:p-[2.5rem]
   }
- 
+
+  
+
 }

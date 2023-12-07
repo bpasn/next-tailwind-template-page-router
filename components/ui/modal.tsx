@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className="">
                 <DialogContent className={cn(
                     className,
-                    "!overflow-y-scroll md:!overflow-x-scroll max-h-screen"
+                   "md:!overflow-auto max-h-screen"
                 )}>
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>

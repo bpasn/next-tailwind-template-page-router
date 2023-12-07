@@ -7,27 +7,27 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useStoreCombobox } from '@/hook/useStoreCombobox';
 import { cn } from '@/lib/utils';
 import { ArrowUpDown, CheckIcon } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useState } from 'react'
 import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 
-interface ComboboxFormProvider<T extends FieldValues> {
-    renderInput?: () => InputProps & React.RefAttributes<HTMLInputElement>;
-    field: ControllerRenderProps<T, Path<T>>;
-    open: boolean;
-    toggle: () => void;
+interface ComboboxFormProvider {
     value: string;
     options: ComboboxProps[];
+    onChange: (v: string) => void;
+    placeholder?: string;
+    isLoading?: boolean;
 }
 
-const ComboboxFormProvider = <T extends FieldValues>({
-    field,
-    open,
-    toggle,
+
+const ComboboxFormProvider = React.forwardRef<HTMLButtonElement, ComboboxFormProvider>(({
     value,
-    options
-}: ComboboxFormProvider<T>) => {
+    options,
+    onChange,
+    placeholder,
+    isLoading
+}: ComboboxFormProvider,ref) => {
     const [isMounted, setIsMounted] = useState(false);
-    const storeCombobox = useStoreCombobox();
+    const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
         setIsMounted(true);
     }, []);
@@ -35,36 +35,35 @@ const ComboboxFormProvider = <T extends FieldValues>({
     if (!isMounted) return null;
 
     return (
-        <Popover onOpenChange={toggle} open={open}>
+        <Popover onOpenChange={() => setIsOpen(!isOpen)} open={isOpen}>
             <FormControl>
                 <PopoverTrigger asChild>
                     <Button
                         variant="outline"
                         role="combobox"
-                        aria-expanded={open}
+                        aria-expanded={isOpen}
                         className="w-full justify-between"
+                        ref={ref}
                     >
                         {value
                             ? options.find((option: ComboboxProps) => option.value === value)?.label
-                            : "Select framework..."}
+                            : placeholder || "Select input..."}
                         <ArrowUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                 </PopoverTrigger>
             </FormControl>
             <PopoverContent className="">
                 <Command>
-                    <CommandInput onValueChange={(s) => {
-                        field.onChange(s);
-                    }} name={field.name} />
+                    <CommandInput placeholder={placeholder} />
                     <CommandEmpty>No Input Found.</CommandEmpty>
                     <CommandGroup>
                         {options.map((option: ComboboxProps) => (
                             <CommandItem
                                 key={option.value}
                                 value={option.value}
-                                onSelect={(e) => {
-                                    storeCombobox.setValue(e);
-                                    storeCombobox.onToggle();
+                                onSelect={(v) => {
+                                    onChange(option.value === value ? value : option.value);
+                                    setIsOpen(!isOpen)
                                 }}
                             >
                                 {option.value}
@@ -81,6 +80,6 @@ const ComboboxFormProvider = <T extends FieldValues>({
             </PopoverContent>
         </Popover>
     )
-}
+})
 
 export default ComboboxFormProvider

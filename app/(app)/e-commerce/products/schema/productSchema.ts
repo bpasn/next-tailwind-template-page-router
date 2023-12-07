@@ -1,4 +1,8 @@
 import zod from 'zod';
+export const ImagesSchema = zod.object({
+    image: typeof window !== "undefined" ? zod.instanceof(File) : zod.string()
+}).array().nullable();
+
 export const ProductFormSchema = zod.object({
     name: zod.string().min(1),
     title: zod.string().min(1),
@@ -7,9 +11,7 @@ export const ProductFormSchema = zod.object({
     price: zod.coerce.number(),
     qualtity: zod.coerce.number(),
     sku: zod.string(),
-    images: zod.object({
-        image: typeof window !== "undefined" ? zod.instanceof(File) : zod.string()
-    }).array().nullable(),
+    images: ImagesSchema,
     description: zod.string().nullable(),
     additionals: zod.object({
         title: zod.string().min(1),
@@ -17,4 +19,6 @@ export const ProductFormSchema = zod.object({
     }).array().nullable()
 
 });
+
+
 export type ProductFormInfer = zod.infer<typeof ProductFormSchema>;
