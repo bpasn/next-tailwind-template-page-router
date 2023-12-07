@@ -12,7 +12,7 @@ import { useStoreModel } from '@/hook/useStoreModel';
 import StoreModal from '@/components/modal/storeModel';
 import ProductForm from './ProductForm';
 
-const StoreDataTable = useStoreDataTable<ProductColumn>({ api: `https://fakestoreapi.com/products` });
+const StoreDataTable = useStoreDataTable<ProductModel>({ api: `https://fakestoreapi.com/products` });
 const ProductClient = () => {
     const router = useRouter();
     const {

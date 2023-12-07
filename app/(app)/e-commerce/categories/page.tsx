@@ -13,8 +13,8 @@ const CategoryPage = () => {
       <div className="flex-1 space-y-4 p-0 md:p-8 pt-6">
         <StoreModal
           title={'Create category'}
-          component={<CategoryForm/>}
-          className='w-[500px]'
+          children={ <CategoryForm/>}
+          className='w-full max-w-[500px]'
         />
         <CategoryClient />
       </div>

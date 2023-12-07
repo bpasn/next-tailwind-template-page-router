@@ -1,4 +1,8 @@
-import { EffectCallback, useEffect, useRef } from "react";
+import {
+    EffectCallback,
+    useEffect,
+    useRef
+} from "react";
 
 export default function useEffectHook(_effect: React.EffectCallback) {
     const effect = useRef<React.EffectCallback>(_effect);

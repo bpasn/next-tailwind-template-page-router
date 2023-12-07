@@ -15,7 +15,6 @@ const StoreModal = ({
 } & React.HTMLAttributes<any>) => {
     const [isMounted, setIsMounted] = useState(false);
     const storeModel = useStoreModel();
-
     useEffect(() => {
         setIsMounted(true);
     }, []);

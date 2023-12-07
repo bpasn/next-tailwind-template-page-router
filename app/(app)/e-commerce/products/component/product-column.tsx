@@ -1,8 +1,9 @@
 'use client';
 
-import { ColumnDef} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { CellAction } from "./productCellAction";
 
-const columns: ColumnDef<ProductColumn>[] = [
+const columns: ColumnDef<ProductModel>[] = [
     {
         accessorKey: "id",
         header: "Id"
@@ -23,6 +24,10 @@ const columns: ColumnDef<ProductColumn>[] = [
         accessorKey: "description",
         header: "Description",
     },
+    {
+        header: "Action",
+        cell: (data) => <CellAction data={data.row.original} />
+    }
 ]
 
 export default columns;

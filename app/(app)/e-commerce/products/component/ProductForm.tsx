@@ -40,11 +40,14 @@ export const optionTest: ComboboxProps[] = [{
   value: "astro",
   label: "Astro",
 }]
-const ProductForm = () => {
-
+const ProductForm = ({
+  initialState
+}: {
+  initialState?: ProductModel
+}) => {
   const form = useForm<ProductFormInfer>({
     resolver: zodResolver(ProductFormSchema),
-    defaultValues: {
+    defaultValues: initialState || {
       name: "",
       title: "",
       categoryId: "",
@@ -53,28 +56,7 @@ const ProductForm = () => {
       qualtity: 0,
       sku: "",
       description: "",
-      additionals: [
-        {
-          title: "Title 1",
-          detail: "Detail 1"
-        },
-        {
-          title: "Title 2",
-          detail: "Detail 2"
-        },
-        {
-          title: "Title 3",
-          detail: "Detail 3"
-        },
-        {
-          title: "Title 4",
-          detail: "Detail 4"
-        },
-        {
-          title: "Title 5",
-          detail: "Detail 5"
-        },
-      ],
+      additionals: [],
       images: []
     }
   });
@@ -138,14 +120,18 @@ const ProductForm = () => {
           name="images"
           render={({ field }) => {
             return (
-                <UploadImageForm
-                  multiple={true}
-                  value={field.value?.map(file => (file.image as File))!}
-                  onChange={(e: File) => {
-                    field.value = [...field.value!, { image: e as File }]
-                    return field.onChange(field.value)
-                  }}
-                />
+              <UploadImageForm
+                multiple={true}
+                value={field.value?.map(file => (file.image as File))!}
+                onChange={(e: File) => {
+                  let newFile: { image: File } = { image: e };
+                  if (field.value?.find(file => file === newFile)) {
+                    return field.onChange(field.value);
+                  }
+                  field.value = [...field.value!, newFile];
+                  return field.onChange(field.value)
+                }}
+              />
             );
           }}
         />

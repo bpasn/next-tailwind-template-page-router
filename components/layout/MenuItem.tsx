@@ -44,7 +44,7 @@ export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: bool
                     </button>
                 </div>
             )}
-            <ul className={`sublevel-nav ${expanded ? ' h-[height] transition-all duration-[.5s] ease-in-out  opacity-100' : 'h-0 transition-all duration-[.5s] ease-in-out opacity-0'}`}>
+            <ul className={`sublevel-nav ${expanded ? ' h-[height] transition-all duration-500 ease-in-out  opacity-100' : 'h-0 transition-all duration-500 ease-in-out opacity-0'}`}>
                 {collapse && expanded && item.children && item.children!.map((child, index) => (
                     <MenuItem key={index} item={child} collapse={collapse} />
                 ))}

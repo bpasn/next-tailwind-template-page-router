@@ -8,10 +8,10 @@ import { useStoreModel } from '@/hook/useStoreModel';
 import { Plus } from 'lucide-react';
 import columns from './product-column';
 import { useStoreDataTable } from '@/hook/useStoreDataTable';
-import ProductForm from './ProductForm';
-import StoreModal from '@/components/modal/storeModel';
-const StoreDataTable = useStoreDataTable<ProductColumn>({ api: "https://fakestoreapi.com/products" });
+import { useRouter } from 'next/navigation';
+const StoreDataTable = useStoreDataTable<ProductModel>({ api: "https://fakestoreapi.com/products" });
 export const ProductClient = () => {
+    const router = useRouter();
     const {
         loading,
         dataTable,
@@ -26,20 +26,13 @@ export const ProductClient = () => {
 
     return (
         <>
-            <StoreModal
-                title={'Create Product Store'}
-                description='Create your product here.'
-                className='w-full max-w-6xl'
-                children={<ProductForm />}
-            />
-
             <div className="grid grid-cols-2 md:flex flex-1 items-center justify-between">
                 <div className='col-span-2 mt-2 gap-2 md:gap-0'>
                     <Heading
                         title={`Products(${0})`}
                         description='Product info' />
                 </div>
-                <Button className="w-auto" onClick={() => storeModal.onOpen()}>
+                <Button className="w-auto" onClick={() => router.push(`/e-commerce/products/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>

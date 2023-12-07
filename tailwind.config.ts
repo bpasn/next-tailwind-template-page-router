@@ -1,20 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true
+  },
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx,js,jsx}',
+    './app/**/*.{ts,tsx,js,jsx}',
   ],
   theme: {
+    backgroundPosition: {
+      bottom: 'bottom',
+      'bottom-4': 'center bottom 1rem',
+      center: 'center',
+      left: 'left',
+      right: 'right',
+      'right-bottom': 'right bottom',
+      'right-top': 'right top',
+      top: 'top',
+      'top-4': 'center top 1rem',
+    },
     container: {
       center: true,
-      md:{
-        'padding-left':"2rem",
-        'padding-right':"2rem",
-        'margin-left':"auto",
-        'margin-right':"auto",
+      md: {
+        'padding-left': "2rem",
+        'padding-right': "2rem",
+        'margin-left': "auto",
+        'margin-right': "auto",
       },
       screens: {
         "3xl": "1536px",
@@ -78,5 +91,11 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+
+  plugins: [
+    require('tailwindcss'),
+    require('precss'),
+    require('autoprefixer'),
+    require("tailwindcss-animate"),
+  ],
 }

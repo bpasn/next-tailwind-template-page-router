@@ -1,17 +1,12 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
 
-// @import 'sidebar';
-@layer components {
-  @import 'sidebar';
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import '_sidebar';
+
+
 
 @layer base {
   :root {
@@ -60,14 +55,12 @@
     --radius: 0.5rem
   }
 }
-@layer components {
-  .block-image {
-    @apply mb-4 flex flex-row flex-wrap items-cnter gap-4
-  }
-}
+
 @layer base {
   * {
-    @apply border-border;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
 
@@ -93,13 +86,11 @@
   }
 
   body {
-    @apply bg-background text-foreground w-screen;
+    @apply bg-background text-foreground w-screen h-screen;
   }
 
   .container {
     @apply p-0 md:p-[2.5rem]
   }
-
-  
 
 }

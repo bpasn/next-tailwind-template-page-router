@@ -7,29 +7,21 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue
-} from "@/components/ui/select";
+
 import {
     Control,
     FieldPath,
     FieldValues,
-    Path,
-    PathValue
 } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import Image from 'next/image';
 import ComboboxFormProvider from "./combobox-form-provider";
-import { ImagesSchema, ProductFormInfer, ProductFormSchema } from "@/app/(app)/e-commerce/products/schema/productSchema";
+import { ImagesSchema } from "@/app/(app)/e-commerce/products/schema/productSchema";
 import zod from 'zod';
+import _ from "lodash";
 export declare interface UseControllerProps<
     TElement extends HTMLElement,
     TFieldValues extends FieldValues = FieldValues,
@@ -108,17 +100,16 @@ export const TextareaForm = <T extends FieldValues>(
     );
 };
 
-type ImageInfer = zod.infer<typeof ImagesSchema>;
 interface InputImageFormProps {
     multiple?: boolean;
-    value: File[];
+    value: File[] | string | File;
     onChange: (val: File) => void;
 }
 export const UploadImageForm = (
     {
         multiple = false,
         value,
-        onChange
+        onChange,
     }: InputImageFormProps
 ) => {
     const onChooseImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,35 +120,98 @@ export const UploadImageForm = (
         }
     }
     return (
-        <div className="overflow-hidden w-[500px]">
-            <div className="mb-4 flex flex-wrap items-cnter gap-4" >
-                {Array.isArray(value) ? value.map((file: File, index: number) => {
-                    console.log({ file })
-                    return (
-                        <div key={file.name} className=" w-[200px] h-[200px] rounded-md ">
-                            <img
-                            width={500}
-                            height={500}
-                            className="w-full h-full object-cover"
-                                src={URL.createObjectURL(file)}
-                                alt="Image"
-                            />
-                            <div className="z-10 absolute top-2 right-2">
-                                {/* <Button
-                                    type="button"
-                                    onClick={() => {
-
-                                    }}
-                                    variant={"destructive"}
-                                    size={"icon"}>
-                                    <Trash />
-                                </Button> */}
-                            </div>
+        <div className="space-y-2">
+            <div className="mb-4 flex flex-row flex-wrap items-center gap-4" style={{
+                flexWrap: "wrap",
+                overflow: "auto",
+            }}>
+                {Array.isArray(value) ? value.map((file: File) => (
+                    <div key={file.name} className="relative rounded-md" style={{
+                        height: "150px",
+                        width: "150px",
+                        position: "relative",
+                    }}>
+                        <Image
+                            fill
+                            className="!fixed object-cover"
+                            src={URL.createObjectURL(file)}
+                            alt="Image"
+                        />
+                        <div className="z-10" style={{
+                            position: "absolute",
+                            top: "2px !important",
+                            right: "2px !important"
+                        }}>
+                            <Button
+                                className="w-10 h-10"
+                                type="button"
+                                onClick={() => {
+                                }}
+                                variant={"destructive"}
+                                size={"icon"}>
+                                <Trash />
+                            </Button>
                         </div>
-                    );
-                }) : value && (
-                    <>s</>
-                )}
+                    </div>
+                )) : !_.isEmpty(value) && typeof value === "string" ? (
+                    <div className="relative rounded-md" style={{
+                        height: "150px",
+                        width: "150px",
+                        position: "relative",
+                    }}>
+                        <Image
+                            fill
+                            className="!fixed object-cover"
+                            src={value}
+                            alt="Image"
+                        />
+                        <div className="z-10" style={{
+                            position: "absolute",
+                            top: "2px !important",
+                            right: "2px !important"
+                        }}>
+                            <Button
+                                className="w-10 h-10"
+                                type="button"
+                                onClick={() => {
+                                }}
+                                variant={"destructive"}
+                                size={"icon"}>
+                                <Trash />
+                            </Button>
+                        </div>
+                    </div>
+                ) : value && typeof value === "object" ? (
+                    <div className="relative rounded-md" style={{
+                        height: "150px",
+                        width: "150px",
+                        position: "relative",
+                    }}>
+                        <Image
+                            fill
+                            className="!fixed object-cover"
+                            src={URL.createObjectURL(value)}
+                            alt="Image"
+                        />
+                        <div className="z-10" style={{
+                            position: "absolute",
+                            top: "2px",
+                            right: "2px",
+                            width:"1.5rem",
+                            height:"1.5rem"
+                        }}>
+                            <Button
+                                type="button"
+                                onClick={() => {
+                                }}
+                                variant={"destructive"}
+                                size={"icon"}>
+                                <Trash />
+                            </Button>
+                        </div>
+                    </div>
+                ) : null
+                }
             </div>
             <div className="mb-4 flex flex-row items-center gap-4 w-64">
                 <Input

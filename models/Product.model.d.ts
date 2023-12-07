@@ -1,4 +1,4 @@
-interface ProductColumn {
+interface ProductModel {
     id: string;
     title: string;
     price: number;
