@@ -1,4 +1,6 @@
+import { Suspense } from 'react';
 import '../styles/globals.scss';
+import { LoadingProvider } from '@/provider/LoadingProvider';
 const Layout = async ({
     children
 }: {
@@ -6,8 +8,10 @@ const Layout = async ({
 }) => {
     return (
         <html lang="en">
-            <body suppressHydrationWarning={true}>
-                {children}
+            <body>
+                <Suspense fallback={<LoadingProvider />}>
+                    {children}
+                </Suspense>
             </body>
         </html>
     );

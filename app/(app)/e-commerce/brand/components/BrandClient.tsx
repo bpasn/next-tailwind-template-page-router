@@ -4,18 +4,17 @@ import StoreModal from '@/components/modal/storeModel';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { useStoreDataTable } from '@/hook/useStoreDataTable';
-import { useStoreModel } from '@/hook/useStoreModel';
 import { Plus } from 'lucide-react';
 import React, { useState } from 'react'
 import brandColumn from './BrandColumn';
 import BrandForm from './BrandForm';
+import { useStoreModalBase } from '@/hook/useStoreModel';
+import { useStoreDataTableBase } from '@/hook/useStoreDataTable';
 
-const storeDataTable = useStoreDataTable<BrandModel>({ api: "" });
 const BrandClient = () => {
     const [loading, setLoading] = useState(false);
-    const storeModal = useStoreModel();
-    const { dataTable } = storeDataTable();
+    const storeModal = useStoreModalBase<BrandModel>();
+    const { dataTable } = useStoreDataTableBase<BrandModel>();
     return (
         <>
             <StoreModal

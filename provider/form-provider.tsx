@@ -62,7 +62,6 @@ export const InputForm = <T extends FieldValues>(
                             {...field}
                             className={cn(className)}
                             type={type}
-                            onChange={(e) => field.onChange(e)}
                             disabled={disabled}
                             placeholder={placeholder}
                         />

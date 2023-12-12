@@ -2,23 +2,26 @@
 import Sidebar from '@/components/layout/Sidebar';
 import SetTheme from '@/components/set-theme';
 import { useStoreRoute } from '@/hook/useStoreRoute';
+import { AlertProvider } from '@/provider/alert-provider';
 import ThemeProvider from '@/provider/theme-provider';
 import { usePathname } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 const Layout = ({
     children
 }: {
     children: React.ReactNode;
 }) => {
+    const [isMounted, setIsMounted] = useState(false);
     const { collapse } = useStoreRoute();
     const storeRoute = useStoreRoute();
     const pathName = usePathname();
     useEffect(() => {
-        console.log("loading")
+        setIsMounted(true);
         if (collapse && storeRoute.screenWidth < 768) {
             storeRoute.setCollapse(false);
         }
     }, [pathName, storeRoute.screenWidth]);
+    if (!isMounted) return null;
     return (
         <ThemeProvider
             attribute="class"
@@ -36,6 +39,7 @@ const Layout = ({
                                     <SetTheme />
                                 </div>
                                 <div className="w-full">
+                                    <AlertProvider />
                                     {children}
                                 </div>
                             </div>

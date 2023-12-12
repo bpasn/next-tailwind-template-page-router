@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true
+  },
+  darkMode: ["class"],
   content: [
     './components/**/*.{ts,tsx,js,jsx}',
     './app/**/*.{ts,tsx,js,jsx}',
   ],
-  darkMode: ["class"],
   theme: {
     container: {
       center: true,
@@ -76,6 +80,7 @@ module.exports = {
       },
     },
   },
+
   plugins: [
     require('tailwindcss'),
     require('precss'),
@@ -83,4 +88,3 @@ module.exports = {
     require("tailwindcss-animate"),
   ],
 }
-

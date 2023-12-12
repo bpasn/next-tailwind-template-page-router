@@ -8,12 +8,10 @@ import {
     FormLabel
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
-import { useStoreModel } from "@/hook/useStoreModel";
 import { useForm } from "react-hook-form"
 
 
 const CategoryForm = () => {
-    const storeModel = useStoreModel();
     const form = useForm();
     return (
         <Form {...form}>

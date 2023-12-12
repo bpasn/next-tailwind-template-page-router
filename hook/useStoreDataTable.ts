@@ -1,39 +1,28 @@
 import { IDataTable, PERPAGE_OPTION } from "@/components/data-table";
 import { create } from "zustand";
 
-export interface StoreDataTable<T> {
+export interface StoreDataTable<T extends BaseModel> {
     loading: boolean;
-    api: string;
     setLoading: (l: boolean) => void;
     dataTable: IDataTable<T>;
     onSelectChange: (v: string) => void;
-    fetchDataTable: () => Promise<void>;
-    setData:(data:IDataTable<T>) => void;
+    setData: (data: T[]) => void;
 }
 
-export const useStoreDataTable = <T>({ api }: { api: string }) => create<StoreDataTable<T>>((set, get) => ({
+const useStoreDataTableImplement = create<StoreDataTable<{}>>()((set, get) => ({
     loading: false,
-    api,
     setLoading: (loading) => {
         set({ loading });
     },
-    setData: (data: IDataTable<T>) => {
-        set({ dataTable: data })
-    },
-    fetchDataTable: async () => {
-        get().setLoading(true)
-        let result = await fetch(get().api);
-        let json: T[] = await result.json();
+    setData<T extends BaseModel>(data: T[]) {
         set({
             dataTable: {
                 ...get().dataTable,
-                data: json,
-                count: json.length
+                data: data,
             }
         });
-        get().setLoading(false);
     },
-
+    
     dataTable: { data: [], count: 0, page: 0, pageSize: PERPAGE_OPTION.TEN },
 
     onSelectChange: (v) => {
@@ -44,9 +33,12 @@ export const useStoreDataTable = <T>({ api }: { api: string }) => create<StoreDa
             }
         });
     },
-
 }));
 
+export const useStoreDataTableBase = useStoreDataTableImplement as {
+    <T extends BaseModel>(): StoreDataTable<T>;
+    <T extends BaseModel , U>(selector: (s: StoreDataTable<T>) => U): U
+}
 export const delay = (duration: number): Promise<void> => {
     return new Promise(resolve => setTimeout(resolve, duration));
 }

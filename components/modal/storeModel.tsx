@@ -1,5 +1,5 @@
 'use client';
-import { useStoreModel } from "@/hook/useStoreModel";
+import { useStoreModalBase } from "@/hook/useStoreModel";
 import Modal from "../ui/modal";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -14,7 +14,7 @@ const StoreModal = ({
     description?: string,
 } & React.HTMLAttributes<any>) => {
     const [isMounted, setIsMounted] = useState(false);
-    const storeModel = useStoreModel();
+    const storeModel = useStoreModalBase<ProductModel>();
     useEffect(() => {
         setIsMounted(true);
     }, []);

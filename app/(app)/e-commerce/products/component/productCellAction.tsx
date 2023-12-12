@@ -1,18 +1,16 @@
 'use client';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useStoreModel } from "@/hook/useStoreModel";
+import { useStoreModalBase } from "@/hook/useStoreModel";
 import { Copy, Edit2, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
 export const CellAction: React.FC<{
     data: ProductModel
 }> = ({
     data
 }) => {
-        const storeModel = useStoreModel();
-        const router = useRouter();
+        const storeModel = useStoreModalBase<ProductModel>();
         const [open, setOpen] = useState(false);
         const [loading, setLoading] = useState(false);
         const onCopy = (id: string) => {
@@ -36,11 +34,6 @@ export const CellAction: React.FC<{
             }
         };
 
-        const onEdit = async (id: string) => {
-            const result = await fetch(`https://fakestoreapi.com/products/${id}`);
-            const data = await result.json();
-            
-        }
         return (
             <>
                 <DropdownMenu>
@@ -60,9 +53,7 @@ export const CellAction: React.FC<{
                             <Copy className="mr-2 h4 w-4" />
                             Copy Id
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => {
-                            router.push(`/e-commerce/products/${data.id}`)
-                        }}>
+                        <DropdownMenuItem onClick={() => storeModel.onEdit(data)}>
                             <Edit2 className="mr-2 h4 w-4" />
                             Update
                         </DropdownMenuItem>

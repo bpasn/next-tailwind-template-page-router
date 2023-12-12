@@ -1,9 +1,9 @@
-interface StoreModel {
+interface StoreModel<T> {
     isOpen: boolean;
+    data: T | null;
     onClose: () => void;
     onOpen: () => void;
-    onEdit:(id:string) => void;
-    id:string;
+    onEdit: (data: T) => void;
 }
 
 interface UseStoreComboboxProps {

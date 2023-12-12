@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { IRouterMenu } from "./IRouterMenu";
 import Icon from "./Icon";
+import Link from "next/link";
 
 
 export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: boolean; }) => {
@@ -16,7 +17,7 @@ export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: bool
             if(!expanded){
                 setExpanded(true)
             }
-        }else {
+        } else {
             setExpanded(!expanded);
         }
     };
@@ -27,10 +28,10 @@ export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: bool
     return (
         <li>
             {item.routeLink ? (
-                <button onClick={() => changeRoute(item.routeLink!)} className={`nav-router-link ${pathname.substring(1) === (item.routeLink!.substring(1)) && 'active'} ${!collapse && "justify-center"}`}>
+                <Link href={item.routeLink!} className={`nav-router-link ${pathname.substring(0,(pathname.length - 1)) === (item.routeLink) && 'active'} ${!collapse && "justify-center"}`}>
                     {item.icon && <Icon name={item.icon} size={30} className={`sublevel-link-icon`} />}
                     <span className={`nav-link-menu-item-text ${collapse ? "block" : "hidden"}`}>{item.label}</span>
-                </button>
+                </Link>
             ) : (
                 <div onClick={handleToggle}>
                     <button className={`nav-router-link ${!collapse && "justify-center"}`}>

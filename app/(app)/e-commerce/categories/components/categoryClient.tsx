@@ -6,13 +6,10 @@ import { Separator } from '@/components/ui/separator';
 import { Plus } from 'lucide-react';
 import React from 'react'
 import { categoryColumn } from './category-column';
-import { useStoreDataTable } from '@/hook/useStoreDataTable';
 import useEffectHook from '@/hook/useEffectHook';
-import { useStoreModel } from '@/hook/useStoreModel';
+import { useStoreModalBase } from '@/hook/useStoreModel';
+import { useStoreDataTableBase } from '@/hook/useStoreDataTable';
 
-const storeDataTable = useStoreDataTable<CategoryModel>({
-    api: 'https://fakestoreapi.com/products/categories'
-});
 const CategoryClient = () => {
     const {
         dataTable,
@@ -20,8 +17,8 @@ const CategoryClient = () => {
         onSelectChange,
         setLoading,
         setData
-    } = storeDataTable();
-    const storeModel = useStoreModel();
+    } = useStoreDataTableBase<CategoryModel>();
+    const storeModel = useStoreModalBase<CategoryModel>();
     const fetchData = async () => {
         setLoading(true)
         let result = await fetch("https://fakestoreapi.com/products/categories");

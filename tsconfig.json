@@ -34,7 +34,7 @@
     "**/*.tsx",
     "**/*.scss",
     ".next/types/**/*.ts"
-  ],
+, "tailwind.config.ts.back"  ],
   "exclude": [
     "node_modules"
   ]

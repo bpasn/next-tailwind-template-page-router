@@ -47,7 +47,7 @@ const ProductForm = ({
 }) => {
   const form = useForm<ProductFormInfer>({
     resolver: zodResolver(ProductFormSchema),
-    defaultValues: initialState || {
+    defaultValues: { ...initialState, images: [], additionals: [] } || {
       name: "",
       title: "",
       categoryId: "",
@@ -84,7 +84,7 @@ const ProductForm = ({
           name='title'
           formLabel='Title'
         />
-        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-2 gap-3">
           <ComboboxForm
             control={form.control}
             name='categoryId'

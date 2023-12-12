@@ -1,4 +1,4 @@
-interface ProductModel {
+interface ProductModel extends BaseModel {
     id: string;
     title: string;
     price: number;
