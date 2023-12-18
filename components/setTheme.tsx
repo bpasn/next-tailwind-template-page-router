@@ -1,3 +1,4 @@
+'use client'
 import { useTheme } from 'next-themes';
 import React from 'react';
 import {
@@ -8,14 +9,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
-interface SetThemeProps {
 
-}
-
-const SetTheme = ({
-
-}: SetThemeProps) => {
-
+const SetTheme = () => {
     const { setTheme } = useTheme();
     return (
         <DropdownMenu>

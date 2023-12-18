@@ -2,39 +2,39 @@
 import {
     ColumnDef,
     ColumnFiltersState,
-    Pagination,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     getPaginationRowModel,
     useReactTable
 } from '@tanstack/react-table';
-import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from './ui/button';
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
-export enum PERPAGE_OPTION {
-    TEN = 10,
-    TWENTY_FIVE = 25,
-    FIFTY = 50,
-    ONE_HUNDRED = 100
-}
-export interface IDataTable<TData> {
-    count: number;
-    data: TData[];
-    page: number;
-    pageSize: PERPAGE_OPTION;
-}
+import React from 'react';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow
+} from '@/components/ui/table';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '@/components/ui/select';
+import { PERPAGE_OPTION } from '@/hook/useStoreDataTable';
 
-interface DataTableProps<TData, TValue> {
+
+interface DataTableProps<TData extends BaseModel, TValue> {
     columns: ColumnDef<TData, TValue>[];
     dataTable: IDataTable<TData>;
     loading: boolean;
     onSelectChange?: (v: string) => void;
 }
 
-export default function DataTable<TData, TValue>({
+export default function DataTable<TData extends BaseModel, TValue>({
     columns,
     dataTable,
     loading = false,
@@ -44,29 +44,25 @@ export default function DataTable<TData, TValue>({
     const table = useReactTable({
         data: dataTable.data,
         columns,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
         initialState: {
             pagination: {
                 pageSize: dataTable.pageSize,
                 pageIndex: dataTable.page
             }
         },
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
         state: {
             columnFilters,
             pagination: {
                 pageSize: dataTable.pageSize,
                 pageIndex: dataTable.page
-            }
-        }
+            },
+        },
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+
     });
-    const onPageChange = (e: React.ChangeEvent<unknown>, p: number) => {
-        if (p - 1 === dataTable.page) return;
-        // setDataTable(prv => ({ ...prv, page: p - 1, }));
-        // onPaginationChange?.(p);
-    };
 
     return (
         <div>
@@ -123,18 +119,13 @@ export default function DataTable<TData, TValue>({
                             disabled={!dataTable.data.length}
                             onValueChange={(e) => {
                                 onSelectChange?.(e);
-                                // setDataTable(prv => ({
-                                //     ...prv,
-                                //     pageSize: Number(e)
-                                // }));
-                                // onChangePageSize?.();
                             }}
-                            defaultValue={dataTable.pageSize?.toString()}
-                            value={dataTable.pageSize?.toString()}
+                            defaultValue={dataTable.pageSize.toString()}
+                            value={dataTable.pageSize.toString()}
                         >
-                            <SelectTrigger value={dataTable.pageSize?.toString()} defaultValue={dataTable.pageSize?.toString()}>
+                            <SelectTrigger value={dataTable.pageSize} defaultValue={dataTable.pageSize.toString()}>
                                 <SelectValue
-                                    defaultValue={dataTable.pageSize?.toString()}
+                                    defaultValue={dataTable.pageSize.toString()}
                                 />
                             </SelectTrigger>
                             <SelectContent>
@@ -152,36 +143,41 @@ export default function DataTable<TData, TValue>({
                     </div>
                     <p className="text-sm">of {dataTable.count}</p>
                 </div>
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                     <Button variant="ghost"
                         className='flex items-center gap-2'
                         onClick={() => {
-                            table.previousPage()
+                            table.previousPage();
+                            setPageIndex(dataTable.page - 1);
                         }}
+                        disabled={!table.getCanPreviousPage()}
                     >
                         <ArrowLeftIcon className='h-4 w-4' /> Previous
                     </Button>
 
                     <div className="flex items-center gap-2">
-                        {Array.from(Array(table.getPageCount()).keys()).map(v => {
-                            if (v > 3 && v < table.getPageCount() - 2) {
-                                return <span key={v}>...</span>
-                            }
+                        {getPaginationItems({
+                            currentPage: dataTable.page + 1,
+                            lastPage: dataTable.count / dataTable.pageSize,
+                            maxLength: 5
+                        }).map(v => {
                             return (
-                                <Button key={v} variant={(dataTable.page) === v ? "default" : "ghost"}>{v + 1}</Button>
+                                <Button key={v} variant={(table.getState().pagination.pageIndex + 1) === v ? "default" : "ghost"}>{!isNaN(v) ? v : '...'}</Button>
                             )
                         })}
                     </div>
 
                     <Button variant={"ghost"}
                         className={`flex items-center gap-2 `}
-                        onClick={() => table.nextPage()}
-                        disabled={false}
+                        onClick={() => {
+                            table.nextPage();
+                            setPageIndex(dataTable.page + 1)
+                        }}
+                        disabled={!table.getCanNextPage()}
                     >
                         <ArrowRightIcon className='h-4 w-4' /> Next
                     </Button>
-                </div>
-                {/* <Pagination size='small' boundaryCount={2} siblingCount={-1} count={Math.ceil(dataTable.count / Number(dataTable.pageSize))} onChange={onPageChange} /> */}
+                </div> */}
             </div>
         </div>
     )

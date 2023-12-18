@@ -2,7 +2,7 @@
 import { useStoreRoute } from '@/hook/useStoreRoute';
 import { X } from 'lucide-react';
 import React from 'react';
-import SetTheme from '../set-theme';
+import SetTheme from '../setTheme';
 import { Menu } from './Menu';
 interface SidebarProps {
     collapse: boolean;
@@ -14,7 +14,7 @@ const Sidebar = () => {
     const {
         routes
     } = useStoreRoute();
-    const { collapse, setCollapse,setScreenWidth } = useStoreRoute();
+    const { collapse, setCollapse, setScreenWidth } = useStoreRoute();
     React.useEffect(() => {
         function handleResize() {
             if (window.innerWidth < 768) {

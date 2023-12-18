@@ -47,35 +47,35 @@ const StoreCombobox = ({
                 </Button>
             </PopoverTrigger>
             <PopoverContent className={cn(
-                        "w-[200px] p-0"
-                    )}>
-                        <Command>
-                            <CommandInput placeholder='"Search Input' className='h-9' />
-                            <CommandEmpty>No Input found.</CommandEmpty>
-                            <CommandGroup>
-                                {storeCombobox.data.map((combobox: ComboboxProps) => (
-                                    <CommandItem
-                                        key={combobox.value}
-                                        value={combobox.value}
-                                        onSelect={(cv) => {
+                "w-[200px] p-0"
+            )}>
+                <Command>
+                    <CommandInput placeholder='"Search Input' className='h-9' />
+                    <CommandEmpty>No Input found.</CommandEmpty>
+                    <CommandGroup>
+                        {storeCombobox.data.map((combobox: ComboboxProps) => (
+                            <CommandItem
+                                key={combobox.value}
+                                value={combobox.value}
+                                onSelect={(cv) => {
 
-                                        }}
-                                    >
-                                        {combobox.label}
-                                        <CheckIcon
-                                            className={
-                                                cn(
-                                                    "ml-auto h-4 w-4",
-                                                    storeCombobox.value === combobox.value ? 'opacity-200' : 'opacity-0'
-                                                )
+                                }}
+                            >
+                                {combobox.label}
+                                <CheckIcon
+                                    className={
+                                        cn(
+                                            "ml-auto h-4 w-4",
+                                            storeCombobox.value === combobox.value ? 'opacity-200' : 'opacity-0'
+                                        )
 
-                                            }
-                                        />
-                                    </CommandItem>
-                                ))}
-                            </CommandGroup>
-                        </Command>
-                    </PopoverContent>
+                                    }
+                                />
+                            </CommandItem>
+                        ))}
+                    </CommandGroup>
+                </Command>
+            </PopoverContent>
         </Popover>
     )
 }

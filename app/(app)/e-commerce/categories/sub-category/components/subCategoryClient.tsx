@@ -5,26 +5,22 @@ import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { Plus } from 'lucide-react';
 import React from 'react'
-import { categoryColumn } from './category-column';
+import { subCategoryColumn } from './subCategoryColumn';
 import useEffectHook from '@/hook/useEffectHook';
 import { useStoreModalBase } from '@/hook/useStoreModel';
 import { useStoreDataTableBase } from '@/hook/useStoreDataTable';
 
-const CategoryClient = () => {
+const SubCategoryClient = () => {
     const {
         dataTable,
         loading,
         onSelectChange,
         setLoading,
         setData
-    } = useStoreDataTableBase<CategoryModel>();
-    const storeModel = useStoreModalBase<CategoryModel>();
+    } = useStoreDataTableBase<SubCategoryModel>();
+    const storeModel = useStoreModalBase<SubCategoryModel>();
     const fetchData = async () => {
         setLoading(true)
-        let result = await fetch("https://fakestoreapi.com/products/categories");
-        let json: string[] = await result.json();
-        let data: CategoryModel[] = json.map((v: string, i: number) => ({ id: String(i + 1), name: v }));
-        setData(data);
         setLoading(false);
     }
     useEffectHook(() => {
@@ -35,7 +31,7 @@ const CategoryClient = () => {
             <div className="grid grid-cols-2 md:flex flex-1 items-center justify-between">
                 <div className='col-span-2 mt-2 gap-2 md:gap-0'>
                     <Heading
-                        title={`Category(${0})`}
+                        title={`Sub Category(${0})`}
                         description='Product info'
                     />
                 </div>
@@ -46,7 +42,7 @@ const CategoryClient = () => {
             </div>
             <Separator />
             <DataTable
-                columns={categoryColumn}
+                columns={subCategoryColumn}
                 loading={loading}
                 dataTable={dataTable}
                 onSelectChange={(v) => {
@@ -58,4 +54,4 @@ const CategoryClient = () => {
     )
 }
 
-export default CategoryClient
+export default SubCategoryClient

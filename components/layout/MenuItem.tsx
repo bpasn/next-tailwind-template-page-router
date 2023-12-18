@@ -12,9 +12,9 @@ export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: bool
     const storeRoute = useStoreRoute();
     const pathname = usePathname();
     const handleToggle = () => {
-        if(!storeRoute.collapse && storeRoute.screenWidth > 768) {
+        if (!storeRoute.collapse && storeRoute.screenWidth > 768) {
             storeRoute.setCollapse(true);
-            if(!expanded){
+            if (!expanded) {
                 setExpanded(true)
             }
         } else {
@@ -28,7 +28,7 @@ export const MenuItem = ({ item, collapse }: { item: IRouterMenu; collapse: bool
     return (
         <li>
             {item.routeLink ? (
-                <Link href={item.routeLink!} className={`nav-router-link ${pathname.substring(0,(pathname.length - 1)) === (item.routeLink) && 'active'} ${!collapse && "justify-center"}`}>
+                <Link href={item.routeLink!} className={`nav-router-link ${pathname.substring(0, (pathname.length - 1)) === (item.routeLink) && 'active'} ${!collapse && "justify-center"}`}>
                     {item.icon && <Icon name={item.icon} size={30} className={`sublevel-link-icon`} />}
                     <span className={`nav-link-menu-item-text ${collapse ? "block" : "hidden"}`}>{item.label}</span>
                 </Link>

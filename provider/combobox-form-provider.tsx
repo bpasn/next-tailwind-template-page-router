@@ -25,7 +25,7 @@ const ComboboxFormProvider = React.forwardRef<HTMLButtonElement, ComboboxFormPro
     onChange,
     placeholder,
     isLoading
-}: ComboboxFormProvider,ref) => {
+}: ComboboxFormProvider, ref) => {
     const [isMounted, setIsMounted] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
@@ -59,6 +59,7 @@ const ComboboxFormProvider = React.forwardRef<HTMLButtonElement, ComboboxFormPro
                     <CommandGroup>
                         {options.map((option: ComboboxProps) => (
                             <CommandItem
+                                className='cursor-pointer'
                                 key={option.value}
                                 value={option.value}
                                 onSelect={(v) => {

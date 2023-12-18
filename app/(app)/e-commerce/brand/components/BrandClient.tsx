@@ -1,5 +1,5 @@
 'use client';
-import DataTable from '@/components/data-table';
+import DataTable from '@/components/DataTable';
 import StoreModal from '@/components/modal/storeModel';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';

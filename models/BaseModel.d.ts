@@ -1,3 +1,4 @@
 interface BaseModel {
+    id: string;
     
 }

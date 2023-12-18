@@ -1,5 +1,5 @@
 'use client';
-import DataTable from '@/components/data-table';
+import DataTable from '@/components/DataTable';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
@@ -13,7 +13,6 @@ import StoreModal from '@/components/modal/storeModel';
 import ProductForm from './ProductForm';
 import { useAlertStore } from '@/hook/useStoreAlert';
 export const ProductClient = () => {
-    const router = useRouter();
     const {
         loading,
         dataTable,

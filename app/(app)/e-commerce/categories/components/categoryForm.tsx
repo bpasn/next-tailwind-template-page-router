@@ -9,16 +9,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form"
+import { CategoryResolver } from "../schema";
 
 
 const CategoryForm = () => {
-    const form = useForm();
+    const form = useForm<CategoryModel>({
+        resolver: CategoryResolver,
+        defaultValues: { name: "" }
+    });
     return (
         <Form {...form}>
-            <form className="space-y-8 w-full">
+            <form className="space-y-8 w-full" onSubmit={form.handleSubmit(d => {})}>
                 <FormField
                     control={form.control}
-                    name=""
+                    name="name"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Name</FormLabel>

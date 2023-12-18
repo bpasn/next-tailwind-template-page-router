@@ -1,6 +1,6 @@
 'use client';
 import Sidebar from '@/components/layout/Sidebar';
-import SetTheme from '@/components/set-theme';
+import SetTheme from '@/components/setTheme';
 import { useStoreRoute } from '@/hook/useStoreRoute';
 import { AlertProvider } from '@/provider/alert-provider';
 import ThemeProvider from '@/provider/theme-provider';
